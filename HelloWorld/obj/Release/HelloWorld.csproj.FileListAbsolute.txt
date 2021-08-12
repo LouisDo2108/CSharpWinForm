@@ -1,0 +1,6 @@
+D:\HCMUS-FIT-APCS\Documents\2021\2nd Year - 3rd Semester\Introduction to Database Systems\Assignments\W09\HelloWorld\HelloWorld\obj\Release\HelloWorld.csproj.AssemblyReference.cache
+D:\HCMUS-FIT-APCS\Documents\2021\2nd Year - 3rd Semester\Introduction to Database Systems\Assignments\W09\HelloWorld\HelloWorld\obj\Release\HelloWorld.FormAboutMe.resources
+D:\HCMUS-FIT-APCS\Documents\2021\2nd Year - 3rd Semester\Introduction to Database Systems\Assignments\W09\HelloWorld\HelloWorld\obj\Release\HelloWorld.FormMain.resources
+D:\HCMUS-FIT-APCS\Documents\2021\2nd Year - 3rd Semester\Introduction to Database Systems\Assignments\W09\HelloWorld\HelloWorld\obj\Release\HelloWorld.Properties.Resources.resources
+D:\HCMUS-FIT-APCS\Documents\2021\2nd Year - 3rd Semester\Introduction to Database Systems\Assignments\W09\HelloWorld\HelloWorld\obj\Release\HelloWorld.csproj.GenerateResource.cache
+D:\HCMUS-FIT-APCS\Documents\2021\2nd Year - 3rd Semester\Introduction to Database Systems\Assignments\W09\HelloWorld\HelloWorld\obj\Release\HelloWorld.csproj.CoreCompileInputs.cache

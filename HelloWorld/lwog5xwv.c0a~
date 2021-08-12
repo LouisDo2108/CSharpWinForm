@@ -1,0 +1,129 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace HelloWorld
+{
+    public partial class FormMain : Form
+    {
+        private const string connectionString = @"Data Source=LOUIS-LENOVO-LE\SQLEXPRESS;Initial Catalog=COMPANY;Integrated Security=True";
+        public FormMain()
+        {
+            InitializeComponent();
+        }
+
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            SqlConnection sqlConnection = null;
+            String query = "SELECT ID, Name FROM Departments";
+            Int32 rowAffected = -1;
+
+            DataSet dataset = ExecuteQuery(sqlConnection, query, connectionString, CommandType.Text, rowAffected, null );
+
+            if (dataset.Tables.Count > 0)
+            {
+                cbDepartment.DataSource = dataset.Tables[0];
+                cbDepartment.DisplayMember = "Name";
+                cbDepartment.ValueMember = "ID";
+            }
+        }
+
+        private DataSet ExecuteQuery(SqlConnection sqlConnection, string commandText, string connectionString,
+        CommandType commandType, Int32 rowAffected, params SqlParameter[] parameters)
+        {
+            using(sqlConnection = new SqlConnection(connectionString)){
+                using(SqlCommand command = new SqlCommand(commandText, sqlConnection)){
+                    
+                    command.CommandType = commandType;
+                    if(parameters != null)
+                    {
+                        foreach (SqlParameter parameter in parameters)
+                        {
+                            if (parameter.Value == null)
+                            {
+                                parameter.Value = DBNull.Value;
+                            }
+                        }
+                        command.Parameters.AddRange(parameters);
+                    }
+                    
+
+                    sqlConnection.Open();
+                    
+                    SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command);
+                    DataSet dataset = new DataSet();
+
+                    rowAffected = sqlDataAdapter.Fill(dataset);
+
+                    sqlConnection.Close();
+                    return dataset;
+                }
+            }
+        }
+
+        public Int32 ExecuteNonQuery(String connectionString, String commandText,  
+          CommandType commandType, params SqlParameter[] parameters) {  
+         using (SqlConnection conn = new SqlConnection(connectionString)) {  
+            using (SqlCommand command = new SqlCommand(commandText, conn)) {  
+
+               command.CommandType = commandType;  
+               if(parameters != null)
+                    {
+                        foreach (SqlParameter parameter in parameters)
+                        {
+                            if (parameter.Value == null)
+                            {
+                                parameter.Value = DBNull.Value;
+                            }
+                        }
+                        command.Parameters.AddRange(parameters);
+                }
+
+               conn.Open();
+               return command.ExecuteNonQuery();  
+            }  
+         }  
+      }  
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult;
+            dialogResult = MessageBox.Show("Do you want to quit?", "Quit", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.OK)
+                Application.Exit();
+        }
+
+        private void aboutMeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAboutMe formAboutMe = new FormAboutMe();
+            formAboutMe.sHoten = "Huynh Tuan Luc";
+            formAboutMe.ShowDialog();
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            SqlParameter parameter = new SqlParameter("@DepartmentID", SqlDbType.Int);
+            int DepartmentID = 0;
+            bool parseOK = Int32.TryParse(cbDepartment.SelectedValue.ToString(), out DepartmentID);
+            parameter.Value = DepartmentID;
+
+            string query = "SELECT * FROM Projects WHERE DepartmentID = @DepartmentID";
+
+            SqlConnection connection = null;
+
+            DataSet dataset = ExecuteQuery(connection, query, connectionString, CommandType.Text, parameter);
+
+            if (dataset.Tables.Count > 0)
+            {
+                dgvProject.DataSource = dataset.Tables[0];
+            }
+        }
+    }
+}
